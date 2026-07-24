@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+export QT_QPA_PLATFORMTHEME="${QT_QPA_PLATFORMTHEME:-kde}"
+export QT_QPA_PLATFORM="${QT_QPA_PLATFORM:-wayland;xcb}"
+
+if systemctl --user is-active plasma-xdg-desktop-portal-kde.service &>/dev/null; then
+  systemctl --user import-environment QT_QPA_PLATFORMTHEME QT_QPA_PLATFORM 2>/dev/null || true
+  systemctl --user restart plasma-xdg-desktop-portal-kde.service
+  exit 0
+fi
+
 sleep 1
 
 # Define all known xdg-desktop-portal backends
