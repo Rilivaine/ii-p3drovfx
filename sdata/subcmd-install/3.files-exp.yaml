@@ -8,8 +8,8 @@
 # - `skip-if-exists`: Skip this step if target exists
 version: "1.0"
 user_preferences:
-  shell: "fish" # fish | zsh
-  terminal: "foot" # kitty | foot
+  shell: "zsh" # fish | zsh
+  terminal: "kitty" # kitty | foot
   keybindings: "default" # default | vim
 patterns:
   # Always install these files
@@ -24,9 +24,16 @@ patterns:
     condition:
       type: "shell"
       value: "fish"
-  - from: "dots/.config/zshrc.d"
-    to: "$XDG_CONFIG_HOME/zshrc.d"
+  - from: "dots/.zshenv"
+    to: "$HOME/.zshenv"
+    mode: "soft"
+    condition:
+      type: "shell"
+      value: "zsh"
+  - from: "dots/.config/zsh"
+    to: "$XDG_CONFIG_HOME/zsh"
     mode: "sync"
+    excludes: [".zcompdump", ".zcompdump*"]
     condition:
       type: "shell"
       value: "zsh"
@@ -90,6 +97,22 @@ patterns:
   # Fontconfig (default - fontsets handled separately if FONTSET_DIR_NAME is set)
   - from: "dots/.config/fontconfig"
     to: "$XDG_CONFIG_HOME/fontconfig"
+    mode: "sync"
+  # Personal configs (from my-dots)
+  - from: "dots/.config/scripts"
+    to: "$HOME/.dotscripts"
+    mode: "sync"
+  - from: "dots/.config/btop"
+    to: "$XDG_CONFIG_HOME/btop"
+    mode: "sync"
+  - from: "dots/.config/fastfetch"
+    to: "$XDG_CONFIG_HOME/fastfetch"
+    mode: "sync"
+  - from: "dots/.config/nvim"
+    to: "$XDG_CONFIG_HOME/nvim"
+    mode: "sync"
+  - from: "dots/.config/paru"
+    to: "$XDG_CONFIG_HOME/paru"
     mode: "sync"
   # MISC config directories (other .config directories)
   - from: "dots/.config/fuzzel"
