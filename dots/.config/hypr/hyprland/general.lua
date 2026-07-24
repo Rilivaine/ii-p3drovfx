@@ -319,84 +319,91 @@ hl.animation({
 })
 -- workspaces
 hl.animation({
-    leaf = "workspaces",
-    enabled = true,
-    speed = 7,
-    bezier = "menu_decel",
-    style = "slide"
+	leaf = "workspaces",
+	enabled = true,
+	speed = 7,
+	bezier = "menu_decel",
+	style = "slide",
 })
 -- specialWorkspace
 hl.animation({
-    leaf = "specialWorkspaceIn",
-    enabled = true,
-    speed = 2.8,
-    bezier = "emphasizedDecel",
-    style = "slidevert"
+	leaf = "specialWorkspaceIn",
+	enabled = true,
+	speed = 2.8,
+	bezier = "emphasizedDecel",
+	style = "slidevert",
 })
 hl.animation({
-    leaf = "specialWorkspaceOut",
-    enabled = true,
-    speed = 1.2,
-    bezier = "emphasizedAccel",
-    style = "slidevert"
+	leaf = "specialWorkspaceOut",
+	enabled = true,
+	speed = 1.2,
+	bezier = "emphasizedAccel",
+	style = "slidevert",
 })
 -- zoom
 hl.animation({
-    leaf = "zoomFactor",
-    enabled = true,
-    speed = 3,
-    bezier = "standardDecel"
+	leaf = "zoomFactor",
+	enabled = true,
+	speed = 3,
+	bezier = "standardDecel",
 })
 
 hl.config({
-    input = {
-        kb_layout = "us",
-        numlock_by_default = true,
-        repeat_delay = 250,
-        repeat_rate = 35,
+	input = {
+		kb_layout = "us, ua",
+		kb_options = "compose:ralt",
+		numlock_by_default = true,
+		repeat_delay = 250,
+		repeat_rate = 35,
 
-        follow_mouse = 1,
-        off_window_axis_events = 2,
+		follow_mouse = 2,
+		off_window_axis_events = 2,
+		sensitivity = -0.8,
 
-        touchpad = {
-            natural_scroll = true,
-            disable_while_typing = true,
-            clickfinger_behavior = true,
-            scroll_factor = 0.7
-        }
-    },
+		touchpad = {
+			natural_scroll = true,
+			disable_while_typing = true,
+			clickfinger_behavior = true,
+			scroll_factor = 0.7,
+		},
+	},
 
-    misc = {
-        disable_hyprland_logo = true,
-        disable_splash_rendering = true,
-        vrr = 0,
-        mouse_move_enables_dpms = true,
-        key_press_enables_dpms = true,
-        animate_manual_resizes = false,
-        animate_mouse_windowdragging = false,
-        enable_swallow = false,
-        swallow_regex = "(foot|kitty|allacritty|Alacritty)",
-        on_focus_under_fullscreen = 2,
-        allow_session_lock_restore = true,
-        session_lock_xray = true,
-        initial_workspace_tracking = false,
-        focus_on_activate = true
-    },
+	misc = {
+		disable_hyprland_logo = true,
+		disable_splash_rendering = true,
+		vrr = 2,
+		mouse_move_enables_dpms = true,
+		key_press_enables_dpms = true,
+		animate_manual_resizes = false,
+		animate_mouse_windowdragging = false,
+		enable_swallow = false,
+		swallow_regex = "(foot|kitty|allacritty|Alacritty)",
+		on_focus_under_fullscreen = 2,
+		allow_session_lock_restore = true,
+		session_lock_xray = true,
+		initial_workspace_tracking = false,
+		focus_on_activate = true,
+	},
 
-    binds = {
-        scroll_event_delay = 0,
-        hide_special_on_workspace_change = true
-    },
+	binds = {
+		scroll_event_delay = 0,
+		hide_special_on_workspace_change = true,
+	},
 
-    cursor = {
-        zoom_factor = 1,
-        zoom_rigid = false,
-        zoom_disable_aa = true,
-        hotspot_padding = 1,
-        no_hardware_cursors = true
-    },
+	cursor = {
+		zoom_factor = 1,
+		zoom_rigid = false,
+		zoom_disable_aa = true,
+		hotspot_padding = 1,
+		no_hardware_cursors = 1,
+	},
 
-    xwayland = {
-        force_zero_scaling = true
-    }
+	xwayland = {
+		force_zero_scaling = true,
+	},
+})
+
+hl.device({
+	name = "elan06fa:00-04f3:31ad-touchpad",
+	sensitivity = 0,
 })

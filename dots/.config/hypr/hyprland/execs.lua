@@ -14,8 +14,8 @@ hl.on("hyprland.start", function()
 
 
     -- Audio (wait for Quickshell's tray watcher so EasyEffects registers its tray icon successfully)
-    hl.exec_cmd(
-        "until busctl --user status org.kde.StatusNotifierWatcher >/dev/null 2>&1; do sleep 0.2; done; easyeffects --hide-window --service-mode")
+    -- hl.exec_cmd(
+        -- "until busctl --user status org.kde.StatusNotifierWatcher >/dev/null 2>&1; do sleep 0.2; done; easyeffects --hide-window --service-mode")
 
     -- Clipboard: history
     -- Kill existing instances
