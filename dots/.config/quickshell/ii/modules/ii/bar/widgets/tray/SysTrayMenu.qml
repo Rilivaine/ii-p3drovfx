@@ -11,7 +11,7 @@ import Quickshell
 PopupWindow {
     id: root
     required property QsMenuHandle trayItemMenuHandle
-    property string trayItemId: ""
+    property var trayItem: null
     property real popupBackgroundMargin: 0
 
     signal menuClosed
@@ -173,8 +173,8 @@ PopupWindow {
             Layout.bottomMargin: 0
             Layout.fillWidth: true
 
-            visible: root.trayItemId !== undefined && root.trayItemId.length > 0 && stackView.depth === 1
-            releaseAction: () => TrayService.togglePin(root.trayItemId);
+            visible: root.trayItem !== null && stackView.depth === 1
+            releaseAction: () => TrayService.togglePin(root.trayItem);
 
             contentItem: RowLayout {
                 anchors {
@@ -193,7 +193,7 @@ PopupWindow {
 
                 StyledText {
                     Layout.fillWidth: true
-                    text: TrayService.isPinned(root.trayItemId) ? Translation.tr("Unpin") : Translation.tr("Pin")
+                    text: TrayService.isPinned(root.trayItem) ? Translation.tr("Unpin") : Translation.tr("Pin")
                 }
             }
         }

@@ -60,7 +60,7 @@ MouseArea {
             var dist = Math.sqrt(dx*dx + dy*dy);
             if (dist > 25 && !dragged) {
                 dragged = true;
-                TrayService.togglePin(root.item.id);
+                TrayService.togglePin(root.item);
             }
         }
     }
@@ -88,7 +88,7 @@ MouseArea {
         sourceComponent: SysTrayMenu {
             Component.onCompleted: this.open()
             trayItemMenuHandle: root.item.menu
-            trayItemId: root.item.id
+            trayItem: root.item
 
             anchor {
                 window: root.QsWindow.window
