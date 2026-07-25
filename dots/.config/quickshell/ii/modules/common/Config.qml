@@ -1568,7 +1568,8 @@ Singleton {
             property JsonObject overview: JsonObject {
                 property bool enable: true
                 property bool showWindowPreviews: true
-                property real scale: 0.18 // Relative to screen size
+                property bool enableManualScale: false
+                property real scale: 0.18 // Relative to screen size (used when enableManualScale is true)
                 property real rows: 2
                 property real columns: 5
                 property bool orderRightLeft: false
@@ -1649,7 +1650,7 @@ Singleton {
                 property bool showItemId: false
                 property bool invertPinnedItems: true // Makes the below a whitelist for the tray and blacklist for the pinned area
                 property list<var> pinnedItems: ["Fcitx"]
-                property bool filterPassive: true
+                property bool filterPassive: false
             }
 
             // Settings app memory management. After the user closes the
