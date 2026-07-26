@@ -6,6 +6,8 @@
 # - `hard-backup`: If target file exists, create backup by renaming it to `*.old.<n>` where `<n>` is a number increment from 1 to prevent backup gets overwritten when running twice. (Keep in mind that this script must be idempotent.) Also must compare the actual file content by using MD5 HASH value to prevent generating lots of `*.old.<n>`s when runnng multiple times. Do not create backup but skip coyping when source and target HASH values are exactly the same.
 # - `skip`: Skip this step
 # - `skip-if-exists`: Skip this step if target exists
+# Optional keys:
+# - `sudo: true`: Run copy/rsync with sudo (for /etc and other privileged paths)
 version: "1.0"
 user_preferences:
   shell: "zsh" # fish | zsh
@@ -24,9 +26,10 @@ patterns:
     condition:
       type: "shell"
       value: "fish"
-  - from: "dots/.zshenv"
+  # Bootstrap ZDOTDIR: install the zshenv as ~/.zshenv so zsh finds ~/.config/zsh
+  - from: "dots/.config/zsh/.zshenv"
     to: "$HOME/.zshenv"
-    mode: "soft"
+    mode: "sync"
     condition:
       type: "shell"
       value: "zsh"
@@ -34,6 +37,12 @@ patterns:
     to: "$XDG_CONFIG_HOME/zsh"
     mode: "sync"
     excludes: [".zcompdump", ".zcompdump*"]
+    condition:
+      type: "shell"
+      value: "zsh"
+  - from: "dots/.config/zshrc.d"
+    to: "$XDG_CONFIG_HOME/zshrc.d"
+    mode: "sync"
     condition:
       type: "shell"
       value: "zsh"
@@ -49,11 +58,11 @@ patterns:
     condition:
       type: "terminal"
       value: "kitty"
-  # Hyprland    
+  # Hyprland
   - from: "dots/.config/hypr"
     to: "$XDG_CONFIG_HOME/hypr"
     mode: "sync"
-    excludes: ["custom", "hyprlock.conf", "hypridle.conf", "hyprland.conf", "hyprland.lua", "monitors.lua", "workspaces.lua", "hyprlock.lua", "hypridle.lua"]
+    excludes: ["custom", "scripts", "hyprlock.conf", "hypridle.conf", "hyprland.conf", "hyprland.lua", "hyprmon.lua", "monitors.conf", "monitors.lua", "workspaces.lua", "hyprlock.lua", "hypridle.lua", "hyprmon_backups"]
   # Hyprland special files
   - from: "dots/.config/hypr/hyprland.conf"
     to: "$XDG_CONFIG_HOME/hypr/hyprland.conf"
@@ -69,36 +78,44 @@ patterns:
       value: "dots/.config/hypr/hyprland.lua"
   - from: "dots/.config/hypr/hypridle.conf"
     to: "$XDG_CONFIG_HOME/hypr/hypridle.conf"
-    mode: "soft-backup"
+    mode: "sync"
   - from: "dots/.config/hypr/hyprlock.conf"
     to: "$XDG_CONFIG_HOME/hypr/hyprlock.conf"
-    mode: "soft-backup"
-  - from: "dots/.config/hypr/monitors.lua"
-    to: "$XDG_CONFIG_HOME/hypr/monitors.lua"
-    mode: "soft-backup"
+    mode: "sync"
+  - from: "dots/.config/hypr/hyprmon.lua"
+    to: "$XDG_CONFIG_HOME/hypr/hyprmon.lua"
+    mode: "sync"
     condition:
       type: "file_exists"
-      value: "dots/.config/hypr/monitors.lua"
-  - from: "dots/.config/hypr/workspaces.lua"
-    to: "$XDG_CONFIG_HOME/hypr/workspaces.lua"
-    mode: "soft-backup"
+      value: "dots/.config/hypr/hyprmon.lua"
+  - from: "dots/.config/hypr/monitors.conf"
+    to: "$XDG_CONFIG_HOME/hypr/monitors.conf"
+    mode: "sync"
     condition:
       type: "file_exists"
-      value: "dots/.config/hypr/workspaces.lua"
+      value: "dots/.config/hypr/monitors.conf"
   - from: "dots/.config/hypr/custom"
     to: "$XDG_CONFIG_HOME/hypr/custom"
-    mode: "skip-if-exists"
-  - from: "dots/.local/share/icons"
-    to: "$XDG_DATA_HOME/icons"
-    mode: "soft"
+    mode: "sync"
+  - from: "dots/.config/hypr/scripts"
+    to: "$XDG_CONFIG_HOME/hypr/scripts"
+    mode: "sync"
+  # Single file — syncing the whole icons dir would wipe other themes
+  - from: "dots/.local/share/icons/illogical-impulse.svg"
+    to: "$XDG_DATA_HOME/icons/illogical-impulse.svg"
+    mode: "sync"
   - from: "dots/.local/share/konsole"
     to: "$XDG_DATA_HOME/konsole"
-    mode: "soft"
+    mode: "sync"
+  # Only the managed file — do not sync the whole dir (install lives here too)
+  - from: "dots/.local/share/ii-vynx/hyprland.conf"
+    to: "$XDG_DATA_HOME/ii-vynx/hyprland.conf"
+    mode: "sync"
   # Fontconfig (default - fontsets handled separately if FONTSET_DIR_NAME is set)
   - from: "dots/.config/fontconfig"
     to: "$XDG_CONFIG_HOME/fontconfig"
     mode: "sync"
-  # Personal configs (from my-dots)
+  # Personal configs
   - from: "dots/.config/scripts"
     to: "$HOME/.dotscripts"
     mode: "sync"
@@ -114,6 +131,15 @@ patterns:
   - from: "dots/.config/paru"
     to: "$XDG_CONFIG_HOME/paru"
     mode: "sync"
+  # System-wide configs (require sudo)
+  - from: "dots/.config/global_config/pacman.conf"
+    to: "/etc/pacman.conf"
+    mode: "hard-backup"
+    sudo: true
+  - from: "dots/.config/global_config/00-local.conf"
+    to: "/etc/sysctl.d/00-local.conf"
+    mode: "sync"
+    sudo: true
   # MISC config directories (other .config directories)
   - from: "dots/.config/fuzzel"
     to: "$XDG_CONFIG_HOME/fuzzel"
@@ -130,12 +156,6 @@ patterns:
   - from: "dots/.config/mpv"
     to: "$XDG_CONFIG_HOME/mpv"
     mode: "sync"
-  - from: "dots/.config/qt5ct"
-    to: "$XDG_CONFIG_HOME/qt5ct"
-    mode: "sync"
-  - from: "dots/.config/qt6ct"
-    to: "$XDG_CONFIG_HOME/qt6ct"
-    mode: "sync"
   - from: "dots/.config/wlogout"
     to: "$XDG_CONFIG_HOME/wlogout"
     mode: "sync"
@@ -148,25 +168,25 @@ patterns:
   # MISC config files (individual files in .config)
   - from: "dots/.config/chrome-flags.conf"
     to: "$XDG_CONFIG_HOME/chrome-flags.conf"
-    mode: "soft"
+    mode: "sync"
   - from: "dots/.config/code-flags.conf"
     to: "$XDG_CONFIG_HOME/code-flags.conf"
-    mode: "soft"
+    mode: "sync"
   - from: "dots/.config/darklyrc"
     to: "$XDG_CONFIG_HOME/darklyrc"
-    mode: "soft"
+    mode: "sync"
   - from: "dots/.config/dolphinrc"
     to: "$XDG_CONFIG_HOME/dolphinrc"
-    mode: "soft"
+    mode: "sync"
   - from: "dots/.config/kdeglobals"
     to: "$XDG_CONFIG_HOME/kdeglobals"
-    mode: "soft"
+    mode: "sync"
   - from: "dots/.config/konsolerc"
     to: "$XDG_CONFIG_HOME/konsolerc"
-    mode: "soft"
+    mode: "sync"
   - from: "dots/.config/starship.toml"
     to: "$XDG_CONFIG_HOME/starship.toml"
-    mode: "soft"
+    mode: "sync"
   - from: "dots/.config/thorium-flags.conf"
     to: "$XDG_CONFIG_HOME/thorium-flags.conf"
-    mode: "soft"
+    mode: "sync"

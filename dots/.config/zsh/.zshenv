@@ -3,6 +3,7 @@ export LESS='-R'
 
 export PATH=$PATH:~/.local/bin
 export PATH=$PATH:~/.cargo/bin
+export PATH=$PATH:~/.dotscripts
 export ZDOTDIR="$HOME/.config/zsh"
 export PATH="$PATH:$HOME/.pub-cache/bin"
 

@@ -172,6 +172,7 @@ for pattern in "${patterns[@]}"; do
   to=$(echo "$pattern" | yq '.to' - | envsubst)
   mode=$(echo "$pattern" | yq '.mode' - | envsubst)
   condition=$(echo "$pattern" | yq '.condition // "true"')
+  use_sudo=$(echo "$pattern" | yq -r '.sudo // false')
 
   # Handle fontconfig fontset override
   # If FONTSET_DIR_NAME is set and this is the fontconfig pattern, use the fontset instead
@@ -197,7 +198,14 @@ for pattern in "${patterns[@]}"; do
     continue
   fi
 
-  echo "Processing: $from -> $to (mode: $mode)"
+  # Prefix privileged destinations with sudo when requested
+  run=()
+  if [[ "$use_sudo" == "true" ]]; then
+    run=(sudo)
+    echo "Processing: $from -> $to (mode: $mode, sudo)"
+  else
+    echo "Processing: $from -> $to (mode: $mode)"
+  fi
 
   # Build exclude arguments for rsync
   excludes=()
@@ -215,7 +223,7 @@ for pattern in "${patterns[@]}"; do
 
   # Ensure destination directory exists for files
   if [[ -f "$from" ]]; then
-    v mkdir -p "$(dirname "$to")"
+    v "${run[@]}" mkdir -p "$(dirname "$to")"
   fi
 
   # Execute based on mode
@@ -223,57 +231,57 @@ for pattern in "${patterns[@]}"; do
     "sync")
       if [[ -d "$from" ]]; then
         warning_overwrite
-        v rsync -av --delete "${excludes[@]}" "$from/" "$to/"
+        v "${run[@]}" rsync -av --delete "${excludes[@]}" "$from/" "$to/"
       else
         warning_overwrite
         # For files, don't use trailing slash and don't use --delete
-        v rsync -av "${excludes[@]}" "$from" "$to"
+        v "${run[@]}" rsync -av "${excludes[@]}" "$from" "$to"
       fi
       ;;
     "soft")
       warning_overwrite
       if [[ -d "$from" ]]; then
-        v rsync -av "${excludes[@]}" "$from/" "$to/"
+        v "${run[@]}" rsync -av "${excludes[@]}" "$from/" "$to/"
       else
         # For files, don't use trailing slash
-        v rsync -av "${excludes[@]}" "$from" "$to"
+        v "${run[@]}" rsync -av "${excludes[@]}" "$from" "$to"
       fi
       ;;
     "hard")
-      v cp -r "$from" "$to"
+      v "${run[@]}" cp -r "$from" "$to"
       ;;
     "hard-backup")
-      if [[ -e "$to" ]]; then
+      if [[ -e "$to" ]] || { [[ "$use_sudo" == "true" ]] && sudo test -e "$to"; }; then
         if files_are_same "$from" "$to"; then
           echo "Files are identical, skipping backup"
         else
           backup_number=$(get_next_backup_number "$to")
-          v mv "$to" "$to.old.$backup_number"
-          v cp -r "$from" "$to"
+          v "${run[@]}" mv "$to" "$to.old.$backup_number"
+          v "${run[@]}" cp -r "$from" "$to"
         fi
       else
-        v cp -r "$from" "$to"
+        v "${run[@]}" cp -r "$from" "$to"
       fi
       ;;
     "soft-backup")
-      if [[ -e "$to" ]]; then
+      if [[ -e "$to" ]] || { [[ "$use_sudo" == "true" ]] && sudo test -e "$to"; }; then
         if files_are_same "$from" "$to"; then
           echo "Files are identical, skipping backup"
         else
-          v cp -r "$from" "$to.new"
+          v "${run[@]}" cp -r "$from" "$to.new"
         fi
       else
-        v cp -r "$from" "$to"
+        v "${run[@]}" cp -r "$from" "$to"
       fi
       ;;
     "skip")
       echo "Skipping $from"
       ;;
     "skip-if-exists")
-      if [[ -e "$to" ]]; then
+      if [[ -e "$to" ]] || { [[ "$use_sudo" == "true" ]] && sudo test -e "$to"; }; then
         echo "Skipping $from (destination exists)"
       else
-        v cp -r "$from" "$to"
+        v "${run[@]}" cp -r "$from" "$to"
       fi
       ;;
     *)

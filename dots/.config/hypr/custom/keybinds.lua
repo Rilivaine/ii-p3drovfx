@@ -40,7 +40,6 @@ hl.bind("CTRL + SUPER + Escape", hl.dsp.global("quickshell:sessionToggle"), {des
 --##! User
 hl.bind("CTRL + SUPER + Slash", hl.dsp.exec_cmd("xdg-open ~/.config/illogical-impulse/config.json"), {description = "Edit shell config"} )
 hl.bind("CTRL + SUPER + ALT + Slash", hl.dsp.exec_cmd("xdg-open ~/.config/hypr/custom/keybinds.lua"), {description = "Edit user keybinds"} )
-hl.bind("SUPER + Space", hl.dsp.exec_cmd("~/.dotscripts/language_switch.sh"), {locked = true, description = "Switch keyboard layout"} )
 
 --#! Apps
 hl.bind("SUPER + D", hl.dsp.exec_cmd("vesktop --enable-features=UseOzonePlatform --ozone-platform=wayland") )

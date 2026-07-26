@@ -12,6 +12,7 @@ hl.window_rule({ match = { class = "^(code-url-handler)$" }, opacity = "0.85 0.8
 hl.window_rule({ match = { class = "^(code)$" }, opacity = "0.85 0.8" })
 hl.window_rule({ match = { class = "^(vscodium)$" }, opacity = "0.85 0.8" })
 hl.window_rule({ match = { class = "^(antigravity)$" }, opacity = "0.85 0.8" })
+hl.window_rule({ match = { class = "^(cursor)$" }, opacity = "0.85 0.8" })
 
 -- show-me-the-key
 hl.window_rule({
