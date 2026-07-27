@@ -12,7 +12,7 @@ version: "1.0"
 user_preferences:
   shell: "zsh" # fish | zsh
   terminal: "kitty" # kitty | foot
-  keybindings: "default" # default | vim
+  keybindings: "vim" # default | vim
 patterns:
   # Always install these files
   - from: "dots/.config/quickshell"

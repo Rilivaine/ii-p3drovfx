@@ -136,11 +136,11 @@ hl.config({
     },
     general = {
         -- Gaps and border
-        gaps_in = 10,
-        gaps_out = 11,
+        gaps_in = 3,
+        gaps_out = 3,
         gaps_workspaces = 50,
 
-        border_size = 3,
+        border_size = 1,
 
         col = {
             active_border = "rgba(f61680FF)",
@@ -371,7 +371,7 @@ hl.config({
 	misc = {
 		disable_hyprland_logo = true,
 		disable_splash_rendering = true,
-		vrr = 2,
+		vrr = 3,
 		mouse_move_enables_dpms = true,
 		key_press_enables_dpms = true,
 		animate_manual_resizes = false,
