@@ -197,7 +197,6 @@ for i = 1, 10 do
             hl.dsp.window.move({
                 workspace = workspace_in_group(i),
                 follow = false,
-                silent = true
             })
         )
     end)
