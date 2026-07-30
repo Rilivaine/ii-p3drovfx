@@ -44,7 +44,7 @@ hl.bind("CTRL + SUPER + Slash", hl.dsp.exec_cmd("xdg-open ~/.config/illogical-im
 hl.bind("CTRL + SUPER + ALT + Slash", hl.dsp.exec_cmd("xdg-open ~/.config/hypr/custom/keybinds.lua"), { description = "Edit user keybinds" })
 
 --##! Apps
-hl.bind("SUPER + D", hl.dsp.exec_cmd("vesktop --enable-features=UseOzonePlatform --ozone-platform=wayland"), { description = "Vesktop" })
+hl.bind("SUPER + D", hl.dsp.exec_cmd(hyprScripts.."/wait_sni.sh vesktop --enable-features=UseOzonePlatform --ozone-platform=wayland"), { description = "Launch Vesktop" })
 hl.bind("SUPER + B", hl.dsp.exec_cmd(browser), { description = "Browser" })
 
 --##! Window

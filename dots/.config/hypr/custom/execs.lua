@@ -12,8 +12,9 @@ hl.on("hyprland.start", function ()
     -- hl.exec_cmd("kdeconnect-indicator")
 
 
-	hl.exec_cmd("vesktop --enable-features=UseOzonePlatform --ozone-platform=wayland --start-minimized")
-	hl.exec_cmd("keepassxc")
+	local waitSni = "$HOME/.config/hypr/scripts/wait_sni.sh"
+	hl.exec_cmd(waitSni .. " vesktop --enable-features=UseOzonePlatform --ozone-platform=wayland --start-minimized")
+	hl.exec_cmd(waitSni .. " keepassxc")
 end)
 
 
