@@ -8,10 +8,10 @@ hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
 hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
 
 -- Cursor theme
--- hl.env("XCURSOR_THEME", "Vimix-cursors")
--- hl.env("XCURSOR_SIZE", "24")
--- hl.env("HYPRCURSOR_THEME", "Vimix-cursors")
--- hl.env("HYPRCURSOR_SIZE", "24")
+hl.env("XCURSOR_THEME", "BreezeX-Light")
+hl.env("XCURSOR_SIZE", "28")
+hl.env("HYPRCURSOR_THEME", "BreezeX-Light")
+hl.env("HYPRCURSOR_SIZE", "28")
 
 -- QT Platform Theme
 -- hl.env("QT_QPA_PLATFORMTHEME", "qt5ct") -- Must be "kde" for Dolphin and KDE Matugen colors

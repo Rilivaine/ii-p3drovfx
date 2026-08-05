@@ -32,7 +32,7 @@ hl.on("hyprland.start", function()
         "sleep 1.5 && wl-paste --type text/uri-list --watch bash -c 'cliphist store && qs -c $qsConfig ipc call cliphistService update'")
 
     -- Cursor
-    hl.exec_cmd("hyprctl setcursor Bibata-Modern-Classic 24")
+    -- hl.exec_cmd("hyprctl setcursor Bibata-Modern-Classic 24")
 end)
 
 hl.on("hyprland.shutdown", function()
