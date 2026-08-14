@@ -42,6 +42,7 @@ AbstractQuickPanel {
         }
         NightLight {}
         GameMode {}
+        Vrr {}
         IdleInhibitor {
             altAction: () => {
                 root.openIdleInhibitorDialog();

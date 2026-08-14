@@ -89,6 +89,13 @@ DelegateChooser {
         }
     }
     DelegateChoice {
+        roleValue: "vrr"
+        ActionCenterToggleButton {
+            toggleModel: VrrToggle {}
+            icon: "arrow-sync"
+        }
+    }
+    DelegateChoice {
         roleValue: "idleInhibitor"
         ActionCenterToggleButton {
             toggleModel: IdleInhibitorToggle {}
