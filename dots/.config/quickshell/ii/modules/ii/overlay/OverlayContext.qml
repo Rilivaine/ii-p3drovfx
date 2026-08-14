@@ -21,7 +21,8 @@ Singleton {
         "resources": "browse_activity",
         "notes": "note_stack",
         "volumeMixer": "volume_up",
-        "discordVoice": "voice_chat"
+        "discordVoice": "voice_chat",
+        "activateLinux": "branding_watermark"
     }
 
     readonly property list<var> availableWidgets: {

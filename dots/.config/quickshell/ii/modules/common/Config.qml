@@ -2780,7 +2780,7 @@ Singleton {
                 property bool openingZoomAnimation: true
                 property bool darkenScreen: true
                 property real clickthroughOpacity: 0.8
-                property list<string> buttons: ["crosshair", "recorder", "media", "volumeMixer", "resources", "discordVoice"]
+                property list<string> buttons: ["crosshair", "recorder", "media", "volumeMixer", "resources", "discordVoice", "activateLinux"]
                 property JsonObject floatingImage: JsonObject {
                     property string imageSource: "https://media.tenor.com/H5U5bJzj3oAAAAAi/kukuru.gif" //media.tenor.com/H5U5bJzj3oAAAAAi/kukuru.gif"
                     property real scale: 0.5
@@ -2804,6 +2804,13 @@ Singleton {
                     property bool blurEnabled: true
                     property bool autoResize: true
                     property bool speakingPulseContinuous: true
+                }
+                property JsonObject activateLinux: JsonObject {
+                    property string title: "Activate Linux"
+                    property string subtitle: "Go to Settings to activate Linux."
+                    property real textOpacity: 0.4
+                    property int titleSize: 22
+                    property int subtitleSize: 14
                 }
             }
 

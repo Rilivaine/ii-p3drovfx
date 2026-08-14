@@ -130,6 +130,52 @@ ContentPage {
     }
 
     ContentSection {
+        title: Translation.tr("Activate Linux")
+        icon: "branding_watermark"
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: 4
+
+            MaterialTextArea {
+                Layout.fillWidth: true
+                placeholderText: Translation.tr("Title")
+                text: Config.options.overlay.activateLinux.title
+                wrapMode: TextEdit.Wrap
+                onTextChanged: {
+                    Config.options.overlay.activateLinux.title = text;
+                }
+            }
+            MaterialTextArea {
+                Layout.fillWidth: true
+                placeholderText: Translation.tr("Subtitle")
+                text: Config.options.overlay.activateLinux.subtitle
+                wrapMode: TextEdit.Wrap
+                onTextChanged: {
+                    Config.options.overlay.activateLinux.subtitle = text;
+                }
+            }
+            ConfigSpinBox {
+                icon: "opacity"
+                text: Translation.tr("Text opacity %")
+                value: Math.round(Config.options.overlay.activateLinux.textOpacity * 100)
+                from: 10
+                to: 80
+                stepSize: 5
+                onValueChanged: {
+                    Config.options.overlay.activateLinux.textOpacity = value / 100;
+                }
+            }
+            StyledText {
+                Layout.leftMargin: 10
+                color: Appearance.colors.colSubtext
+                font.pixelSize: Appearance.font.pixelSize.smallie
+                text: Translation.tr("Press Super+G, open Activate Linux, and pin it. It stays in the bottom-right like Windows.")
+            }
+        }
+    }
+
+    ContentSection {
         title: Translation.tr("Floating Image")
         icon: "image"
 

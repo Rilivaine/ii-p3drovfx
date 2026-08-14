@@ -258,6 +258,14 @@ Singleton {
                     property real width: 344
                     property real height: 200
                 }
+                property JsonObject activateLinux: JsonObject {
+                    property bool pinned: true
+                    property bool clickthrough: true
+                    property real x: -1
+                    property real y: -1
+                    property real width: 0
+                    property real height: 0
+                }
             }
 
             property JsonObject phoneCamera: JsonObject {
