@@ -19,7 +19,7 @@ Item {
         }
     }
 
-    property real initScale: Config.options.overlay.openingZoomAnimation ? 1.08 : 1.000001
+    property real initScale: (GlobalStates.overlayOpen && Config.options.overlay.openingZoomAnimation) ? 1.08 : 1.000001
     scale: initScale
     Component.onCompleted: {
         scale = 1

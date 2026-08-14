@@ -52,14 +52,44 @@ Singleton {
     property list<string> pinnedWidgetIdentifiers: []
     property list<var> clickableWidgets: []
 
+    // Widgets only call pin() after they exist, but the overlay Loader only
+    // creates them when hasPinnedWidgets is already true. Seed from saved
+    // state so pinned widgets appear at session start without opening the menu.
+    function syncPinnedFromPersistent() {
+        if (!Persistent.ready)
+            return
+        const overlay = Persistent.states.overlay
+        const open = overlay?.open ?? []
+        let pinned = []
+        for (let i = 0; i < open.length; i++) {
+            const id = open[i]
+            if (overlay[id]?.pinned)
+                pinned.push(id)
+        }
+        root.pinnedWidgetIdentifiers = pinned
+    }
+
     function pin(identifier: string, pin = true) {
         if (pin) {
             if (!root.pinnedWidgetIdentifiers.includes(identifier)) {
-                root.pinnedWidgetIdentifiers.push(identifier)
+                root.pinnedWidgetIdentifiers = root.pinnedWidgetIdentifiers.concat([identifier])
             }
         } else {
             root.pinnedWidgetIdentifiers = root.pinnedWidgetIdentifiers.filter(id => id !== identifier)
         }
+    }
+
+    Connections {
+        target: Persistent
+        function onReadyChanged() {
+            if (Persistent.ready)
+                root.syncPinnedFromPersistent()
+        }
+    }
+
+    Component.onCompleted: {
+        if (Persistent.ready)
+            root.syncPinnedFromPersistent()
     }
 
     function registerClickableWidget(widget: QtObject, clickable = true) {

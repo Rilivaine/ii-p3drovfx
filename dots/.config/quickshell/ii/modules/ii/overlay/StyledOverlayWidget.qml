@@ -100,7 +100,7 @@ AbstractOverlayWidget {
     opacity: (GlobalStates.overlayOpen || !clickthrough) ? 1.0 : Config.options.overlay.clickthroughOpacity
 
     // Guarded states & registration funcs
-    property bool open: Persistent.states.overlay.open
+    property bool open: Persistent.states.overlay.open.includes(identifier)
     property bool actuallyPinned: pinned && open
     property bool actuallyClickable: !clickthrough && actuallyPinned && open
     onActuallyPinnedChanged: reportPinnedState();
