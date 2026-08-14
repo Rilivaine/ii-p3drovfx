@@ -8,11 +8,11 @@ hl.window_rule({ match = { class = "^(Vicinae)$" }, stay_focused = true })
 
 -- Transparency + blur for specific apps
 hl.window_rule({ match = { class = "^(kitty)$" }, opacity = "0.85 0.8" })
-hl.window_rule({ match = { class = "^(code-url-handler)$" }, opacity = "0.85 0.8" })
-hl.window_rule({ match = { class = "^(code)$" }, opacity = "0.85 0.8" })
-hl.window_rule({ match = { class = "^(vscodium)$" }, opacity = "0.85 0.8" })
-hl.window_rule({ match = { class = "^(antigravity)$" }, opacity = "0.85 0.8" })
-hl.window_rule({ match = { class = "^(cursor)$" }, opacity = "0.85 0.8" })
+-- hl.window_rule({ match = { class = "^(code-url-handler)$" }, opacity = "0.85 0.8" })
+-- hl.window_rule({ match = { class = "^(code)$" }, opacity = "0.85 0.8" })
+-- hl.window_rule({ match = { class = "^(vscodium)$" }, opacity = "0.85 0.8" })
+-- hl.window_rule({ match = { class = "^(antigravity)$" }, opacity = "0.85 0.8" })
+-- hl.window_rule({ match = { class = "^(cursor)$" }, opacity = "0.85 0.8" })
 
 -- show-me-the-key
 hl.window_rule({
@@ -53,10 +53,17 @@ hl.window_rule({
 	no_screen_share = true,
 })
 
--- hl.window_rule({
--- 	match = { float = true },
--- 	center = true,
--- })
+-- Steam Windows (Friends, Settings)
+hl.window_rule({
+	match = { class = "^(steam)$", title = "^(Friends List|Steam Settings)$" },
+	center = true,
+	float = true,
+})
+
+hl.window_rule({
+	match = { float = true },
+	center = true,
+})
 
 -- hl.window_rule({ match = { title = ".*is sharing (a window|your screen).*" }, float = true })
 -- hl.window_rule({ match = { title = ".*is sharing (a window|your screen).*" }, pin = true })
